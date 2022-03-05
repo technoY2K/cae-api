@@ -1,7 +1,7 @@
 module Web.View.Posts.Index where
-import Web.View.Prelude
+import           Web.View.Prelude
 
-data IndexView = IndexView { posts :: [Post]  }
+newtype IndexView = IndexView { posts :: [Post]  }
 
 instance View IndexView where
     html IndexView { .. } = [hsx|
@@ -20,7 +20,7 @@ instance View IndexView where
                 </thead>
                 <tbody>{forEach posts renderPost}</tbody>
             </table>
-            
+
         </div>
     |]
         where
