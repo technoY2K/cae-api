@@ -1,7 +1,7 @@
 module Web.View.Posts.Edit where
-import Web.View.Prelude
+import           Web.View.Prelude
 
-data EditView = EditView { post :: Post }
+newtype EditView = EditView { post :: Post }
 
 instance View EditView where
     html EditView { .. } = [hsx|

@@ -53,3 +53,5 @@ instance Controller PostsController where
 
 buildPost post = post
     |> fill @["title","body"]
+    |>  validateField #title nonEmpty
+    |>  validateField #body nonEmpty
