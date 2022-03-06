@@ -1,12 +1,13 @@
 module Web.View.Posts.Show where
 import           Web.View.Prelude
 
-data ShowView = ShowView { post :: Post }
+newtype ShowView = ShowView { post :: Post }
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
         {breadcrumb}
         <h2>{get #title post}</h2>
+        <p>{get #createdAt post |> timeAgo}</p>
         <div>{get #body post}</div>
 
     |]
