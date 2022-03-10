@@ -1,18 +1,18 @@
 module Web.Controller.Comments where
 
-import Web.Controller.Prelude
-import Web.View.Comments.Index
-import Web.View.Comments.New
-import Web.View.Comments.Edit
-import Web.View.Comments.Show
+import           Web.Controller.Prelude
+import           Web.View.Comments.Edit
+import           Web.View.Comments.Index
+import           Web.View.Comments.New
+import           Web.View.Comments.Show
 
 instance Controller CommentsController where
     action CommentsAction = do
         comments <- query @Comment |> fetch
         render IndexView { .. }
 
-    action NewCommentAction = do
-        let comment = newRecord
+    action NewCommentAction { postId } = do
+        let comment = newRecord |> set #postId postId
         render NewView { .. }
 
     action ShowCommentAction { commentId } = do
@@ -39,7 +39,7 @@ instance Controller CommentsController where
         comment
             |> buildComment
             |> ifValid \case
-                Left comment -> render NewView { .. } 
+                Left comment -> render NewView { .. }
                 Right comment -> do
                     comment <- comment |> createRecord
                     setSuccessMessage "Comment created"

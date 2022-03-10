@@ -1,13 +1,13 @@
 module Web.View.Comments.Index where
-import Web.View.Prelude
+import           Web.View.Prelude
 
-data IndexView = IndexView { comments :: [Comment]  }
+newtype IndexView = IndexView { comments :: [Comment]  }
 
 instance View IndexView where
     html IndexView { .. } = [hsx|
         {breadcrumb}
 
-        <h1>Index<a href={pathTo NewCommentAction} class="btn btn-primary ml-4">+ New</a></h1>
+        <h1>Comments</h1>
         <div class="table-responsive">
             <table class="table">
                 <thead>
@@ -20,7 +20,7 @@ instance View IndexView where
                 </thead>
                 <tbody>{forEach comments renderComment}</tbody>
             </table>
-            
+
         </div>
     |]
         where
