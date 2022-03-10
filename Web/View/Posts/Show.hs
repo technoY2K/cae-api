@@ -2,7 +2,7 @@ module Web.View.Posts.Show where
 import qualified Text.MMark       as MMark
 import           Web.View.Prelude
 
-newtype ShowView = ShowView { post :: Post }
+newtype ShowView = ShowView { post :: Include "comments" Post }
 
 instance View ShowView where
     html ShowView { .. } = [hsx|
