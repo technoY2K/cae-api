@@ -10,6 +10,7 @@ instance View ShowView where
         <h2>{get #title post}</h2>
         <p>{get #createdAt post |> timeAgo}</p>
         <div>{get #body post |> renderMarkdown}</div>
+        <a href={NewCommentAction}>Add Comment</a>
 
     |]
         where

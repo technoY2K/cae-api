@@ -1,7 +1,7 @@
 module Web.View.Comments.New where
-import Web.View.Prelude
+import           Web.View.Prelude
 
-data NewView = NewView { comment :: Comment }
+newtype NewView = NewView { comment :: Comment }
 
 instance View NewView where
     html NewView { .. } = [hsx|

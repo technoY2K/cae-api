@@ -1,12 +1,10 @@
 module Web.Types where
 
-import IHP.Prelude
-import IHP.ModelSupport
-import Generated.Types
+import           Generated.Types
+import           IHP.ModelSupport
+import           IHP.Prelude
 
 data WebApplication = WebApplication deriving (Eq, Show)
-
-
 data StaticController = WelcomeAction deriving (Eq, Show, Data)
 
 data PostsController
@@ -21,7 +19,7 @@ data PostsController
 
 data CommentsController
     = CommentsAction
-    | NewCommentAction
+    | NewCommentAction { postId :: !(Id Post)}
     | ShowCommentAction { commentId :: !(Id Comment) }
     | CreateCommentAction
     | EditCommentAction { commentId :: !(Id Comment) }
