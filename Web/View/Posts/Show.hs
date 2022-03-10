@@ -5,12 +5,13 @@ import           Web.View.Prelude
 newtype ShowView = ShowView { post :: Include "comments" Post }
 
 instance View ShowView where
-    html ShowView { .. } = [hsx|
+    html ShowView { post } = [hsx|
         {breadcrumb}
         <h2>{get #title post}</h2>
         <p>{get #createdAt post |> timeAgo}</p>
         <div>{get #body post |> renderMarkdown}</div>
         <div>{forEach (get #comments post) renderComment}</div>
+        <hr>
         <a href={NewCommentAction (get #id post)}>Add Comment</a>
 
     |]
