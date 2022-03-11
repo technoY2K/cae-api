@@ -2,7 +2,7 @@ module Web.Controller.Posts where
 
 import           BasicPrelude
 import           Blockfrost.Client
-import           Data.ByteString.Lazy   as BL hiding (length)
+import qualified Data.ByteString.Lazy   as BL
 import qualified Data.Text              as T
 import qualified Text.MMark             as MMark
 import           Web.Controller.Prelude
@@ -85,6 +85,7 @@ isMarkDown text =
         Left _  -> Failure "Please provide valid Markdown"
         Right _ -> Success
 
+convert :: Text -> BL.ByteString
 convert = BL.fromChunks . return . encodeUtf8
 
 parseBFError :: BlockfrostError -> Text
