@@ -1,4 +1,5 @@
 module Web.View.Posts.Index where
+import           Data.Aeson
 import           Web.View.Prelude
 
 newtype IndexView = IndexView { posts :: [Post]  }
@@ -25,6 +26,8 @@ instance View IndexView where
                 [ breadcrumbLink "Posts" PostsAction
                 ]
 
+    json IndexView { .. } = toJSON posts
+
 renderPost :: Post -> Html
 renderPost post = [hsx|
     <tr>
@@ -34,3 +37,10 @@ renderPost post = [hsx|
         <td><a href={DeletePostAction (get #id post)} class="js-delete text-muted">Delete</a></td>
     </tr>
 |]
+
+instance ToJSON Post where
+    toJSON post = object
+        [ "id" .= get #id post
+        , "title" .= get #title post
+        , "body" .= get #body post
+        ]
