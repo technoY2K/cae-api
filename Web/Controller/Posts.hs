@@ -15,17 +15,16 @@ instance Controller PostsController where
     action PostsAction = do
         project <- projectFromFile ".blockfrost"
         result <- runBlockfrost project $ do
-                    ats <- getAssetsByPolicy "c364930bd612f42e14d156e1c5410511e77f64cab8f2367a9df544d1"
-                    if length ats > 1
-                        then
-                            do
-                                let asset = ats !! 1
-                                details <- getAssetDetails $ AssetId (_assetInfoAsset asset)
-                                case _assetDetailsOnchainMetadata details of
-                                    Nothing -> return ("No asset meta data" :: T.Text)
-                                    Just d  -> return (_assetOnChainMetadataName d)
+                    let policyId = param @Text "policyId"
+                    ats <- getAssetsByPolicy (PolicyId policyId)
+                    case ats of
+                        (x:y:zs) -> do
+                            details <- getAssetDetails $ AssetId (_assetInfoAsset y)
+                            case _assetDetailsOnchainMetadata details of
+                                Nothing -> return ("No asset meta data" :: T.Text)
+                                Just d  -> return (_assetOnChainMetadataName d)
 
-                        else return "Not enough assets"
+                        _ -> return "Not enough assets"
 
         case result of
             Left e  -> renderPlain $ convert (parseBFError e)
