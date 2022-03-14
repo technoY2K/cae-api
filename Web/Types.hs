@@ -1,5 +1,4 @@
 module Web.Types where
-
 import           Generated.Types
 import           IHP.ModelSupport
 import           IHP.Prelude
@@ -25,4 +24,8 @@ data CommentsController
     | EditCommentAction { commentId :: !(Id Comment) }
     | UpdateCommentAction { commentId :: !(Id Comment) }
     | DeleteCommentAction { commentId :: !(Id Comment) }
+    deriving (Eq, Show, Data)
+
+data DashboardController
+    = DashboardAction
     deriving (Eq, Show, Data)
