@@ -8,6 +8,5 @@ instance AutoRoute StaticController
 instance AutoRoute PostsController
 instance AutoRoute CommentsController
 instance AutoRoute SessionsController
-
 instance AutoRoute UsersController
 

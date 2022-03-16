@@ -1,12 +1,12 @@
 module Web.View.Users.New where
-import Web.View.Prelude
+import           Web.View.Prelude
 
 data NewView = NewView { user :: User }
 
 instance View NewView where
-    html NewView { .. } = [hsx|
+    html NewView { user } = [hsx|
         {breadcrumb}
-        <h1>New User</h1>
+        <h1>Create a new user</h1>
         {renderForm user}
     |]
         where
@@ -18,8 +18,6 @@ instance View NewView where
 renderForm :: User -> Html
 renderForm user = formFor user [hsx|
     {(textField #email)}
-    {(textField #passwordHash)}
-    {(textField #failedLoginAttempts)}
+    {(passwordField #passwordHash) {fieldLabel ="Password"}}
     {submitButton}
-
 |]
