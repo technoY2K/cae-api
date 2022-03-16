@@ -7,3 +7,4 @@ import           Web.Types
 instance AutoRoute StaticController
 instance AutoRoute PostsController
 instance AutoRoute CommentsController
+instance AutoRoute SessionController
