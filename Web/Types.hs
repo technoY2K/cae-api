@@ -27,7 +27,7 @@ data CommentsController
     | DeleteCommentAction { commentId :: !(Id Comment) }
     deriving (Eq, Show, Data)
 
-data SessionController
+data SessionsController
     = NewSessionAction
     | CreateSessionAction
     | DeleteSessionAction
