@@ -7,14 +7,14 @@ import           Web.Controller.Prelude      (CommentsController,
                                               FrontController (..),
                                               InitControllerContext (..),
                                               PostsController,
-                                              SessionsController,
+                                              SessionsController, User,
                                               UsersController, WebApplication,
                                               initAutoRefresh, parseRoute,
                                               setLayout, startPage)
 import           Web.View.Layout             (defaultLayout)
 
 -- Controller Imports
-import           IHP.LoginSupport.Middleware ()
+import           IHP.LoginSupport.Middleware (initAuthentication)
 import           Web.Controller.Comments     ()
 import           Web.Controller.Dashboard    ()
 import           Web.Controller.Posts        ()
@@ -36,3 +36,4 @@ instance InitControllerContext WebApplication where
     initContext = do
         setLayout defaultLayout
         initAutoRefresh
+        initAuthentication @User
