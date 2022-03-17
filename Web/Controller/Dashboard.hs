@@ -10,16 +10,12 @@ import           Web.Controller.Prelude   (Controller (action),
                                            Monad (return), User' (email),
                                            currentUserOrNothing, get, render,
                                            renderPlain, ($), (.))
-import           Web.View.Dashboard.Index (IndexView (IndexView))
+import           Web.View.Dashboard.Index (IndexView (IndexView, userEmail))
 
 instance Controller DashboardController where
-    action DashboardAction = do
-        case currentUserOrNothing of
-            Just currentUser -> renderPlain $ convert (get #email currentUser)
+    action DashboardAction =
+        let userEmail = case currentUserOrNothing of
+                Just currentUser -> Just (get #email currentUser)
+                Nothing          -> Nothing
 
-            Nothing          -> renderPlain "Go login first"
-
-        render IndexView
-
-convert :: Text -> BL.ByteString
-convert = BL.fromChunks . return . encodeUtf8
+        in render IndexView { userEmail }
