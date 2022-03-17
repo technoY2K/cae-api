@@ -1,15 +1,26 @@
 module Web.FrontController where
 
-import           IHP.RouterPrelude
-import           Web.Controller.Prelude
-import           Web.View.Layout          (defaultLayout)
+import           IHP.RouterPrelude           (FrontController (..), parseRoute,
+                                              startPage)
+import           Web.Controller.Prelude      (CommentsController,
+                                              DashboardController (DashboardAction),
+                                              FrontController (..),
+                                              InitControllerContext (..),
+                                              PostsController,
+                                              SessionsController,
+                                              UsersController, WebApplication,
+                                              initAutoRefresh, parseRoute,
+                                              setLayout, startPage)
+import           Web.View.Layout             (defaultLayout)
 
 -- Controller Imports
-import Web.Controller.Users
-import           Web.Controller.Comments
-import           Web.Controller.Dashboard
-import           Web.Controller.Posts
-import           Web.Controller.Static
+import           IHP.LoginSupport.Middleware ()
+import           Web.Controller.Comments     ()
+import           Web.Controller.Dashboard    ()
+import           Web.Controller.Posts        ()
+import           Web.Controller.Sessions     ()
+import           Web.Controller.Static       ()
+import           Web.Controller.Users        ()
 
 instance FrontController WebApplication where
     controllers =
@@ -18,6 +29,7 @@ instance FrontController WebApplication where
         , parseRoute @UsersController
         , parseRoute @CommentsController
         , parseRoute @PostsController
+        , parseRoute @SessionsController
         ]
 
 instance InitControllerContext WebApplication where
