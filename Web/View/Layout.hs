@@ -1,14 +1,20 @@
 module Web.View.Layout (defaultLayout, Html) where
 
-import IHP.ViewPrelude
-import IHP.Environment
-import qualified Text.Blaze.Html5            as H
-import qualified Text.Blaze.Html5.Attributes as A
-import Generated.Types
-import IHP.Controller.RequestContext
-import Web.Types
-import Web.Routes
-import Application.Helper.View
+import           Application.Helper.View       ()
+import           Generated.Types               ()
+import           IHP.Controller.RequestContext ()
+import           IHP.Environment               ()
+import           IHP.ViewPrelude               (Html, assetPath,
+                                                autoRefreshMeta, hsx,
+                                                isDevelopment,
+                                                liveReloadWebsocketUrl,
+                                                pageTitleOrDefault,
+                                                renderFlashMessages, when, (!),
+                                                ($))
+import qualified Text.Blaze.Html5              as H
+import qualified Text.Blaze.Html5.Attributes   as A
+import           Web.Routes                    ()
+import           Web.Types                     (SessionsController (DeleteSessionAction))
 
 defaultLayout :: Html -> Html
 defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
@@ -24,6 +30,7 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
     <div class="container mt-4">
         {renderFlashMessages}
         {inner}
+        <a class="js-delete js-delete-no-confirm" href={DeleteSessionAction}>Logout</a>
     </div>
 </body>
 |]

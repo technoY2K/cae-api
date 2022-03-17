@@ -7,11 +7,13 @@ instance View IndexView where
     html IndexView { userEmail }= [hsx|
         <h1>Welcome</h1>
         <div>
-            <p>This is the Dashboard{renderGreeting}</p>
+            {renderMsg}
         </div>
     |]
 
         where
-            renderGreeting = case userEmail of
-                Just t  -> ", Hello " <> t
-                Nothing -> ", Please login!"
+            renderMsg = case userEmail of
+                Just email  -> [hsx|<p>Hello, {email}</p>|]
+                Nothing -> [hsx|
+                                <p>Please <a href={NewSessionAction}>Login</a></p>
+                            |]
