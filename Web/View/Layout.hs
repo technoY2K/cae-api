@@ -4,8 +4,9 @@ import           Application.Helper.View       ()
 import           Generated.Types               ()
 import           IHP.Controller.RequestContext ()
 import           IHP.Environment               ()
-import           IHP.ViewPrelude               (Html, assetPath,
-                                                autoRefreshMeta, hsx,
+import           IHP.ViewPrelude               (Html, Maybe (Just, Nothing),
+                                                assetPath, autoRefreshMeta,
+                                                currentUserOrNothing, hsx,
                                                 isDevelopment,
                                                 liveReloadWebsocketUrl,
                                                 pageTitleOrDefault,
@@ -14,7 +15,7 @@ import           IHP.ViewPrelude               (Html, assetPath,
 import qualified Text.Blaze.Html5              as H
 import qualified Text.Blaze.Html5.Attributes   as A
 import           Web.Routes                    ()
-import           Web.Types                     (SessionsController (DeleteSessionAction))
+import           Web.Types                     (SessionsController (DeleteSessionAction, NewSessionAction))
 
 defaultLayout :: Html -> Html
 defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
@@ -29,11 +30,32 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
 <body>
     <div class="container mt-4">
         {renderFlashMessages}
+        {renderNav}
         {inner}
-        <a class="js-delete js-delete-no-confirm" href={DeleteSessionAction}>Logout</a>
     </div>
 </body>
 |]
+
+    where
+        renderNav = [hsx|
+            <nav class="navbar navbar-expand-lg navbar-light bg-light">
+                <a class="navbar-brand" href="/">=</a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                    <li class="nav-item">
+                        {authUser}
+                    </li>
+                    </ul>
+                </div>
+            </nav>
+        |]
+
+        authUser = case currentUserOrNothing of
+            Nothing   -> [hsx|<a href={NewSessionAction}>Login</a>|]
+            Just user -> [hsx|<a class="js-delete js-delete-no-confirm" href={DeleteSessionAction}>Logout</a>|]
 
 -- The 'assetPath' function used below appends a `?v=SOME_VERSION` to the static assets in production
 -- This is useful to avoid users having old CSS and JS files in their browser cache once a new version is deployed
