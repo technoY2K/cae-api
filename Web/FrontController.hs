@@ -31,6 +31,7 @@ instance FrontController WebApplication where
         , parseRoute @CommentsController
         , parseRoute @PostsController
         , parseRoute @SessionsController
+        , parseRoute @DashboardController
         ]
 
 instance InitControllerContext WebApplication where

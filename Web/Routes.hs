@@ -10,3 +10,8 @@ instance AutoRoute CommentsController
 instance AutoRoute SessionsController
 instance AutoRoute UsersController
 
+instance CanRoute DashboardController where
+    parseRoute' = string "/dashboard" <* endOfInput >> pure DashboardAction
+
+instance HasPath DashboardController where
+    pathTo DashboardAction = "/dashboard"

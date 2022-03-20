@@ -1,6 +1,9 @@
 module Web.View.Sessions.New where
-import           IHP.AuthSupport.View.Sessions.New
-import           Web.View.Prelude
+import           IHP.AuthSupport.View.Sessions.New (NewView (..))
+import           Web.View.Prelude                  (Html, IsLabel (fromLabel),
+                                                    SessionsController (CreateSessionAction),
+                                                    User, User' (email),
+                                                    View (html), get, hsx)
 
 instance View (NewView User) where
     html NewView { .. } = [hsx|
