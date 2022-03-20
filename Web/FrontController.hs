@@ -3,14 +3,15 @@ module Web.FrontController where
 import           IHP.RouterPrelude           (FrontController (..), parseRoute,
                                               startPage)
 import           Web.Controller.Prelude      (CommentsController,
-                                              DashboardController (DashboardAction),
+                                              DashboardController,
                                               FrontController (..),
                                               InitControllerContext (..),
                                               PostsController,
-                                              SessionsController, User,
-                                              UsersController, WebApplication,
-                                              initAutoRefresh, parseRoute,
-                                              setLayout, startPage)
+                                              SessionsController,
+                                              StaticController (WelcomeAction),
+                                              User, UsersController,
+                                              WebApplication, initAutoRefresh,
+                                              parseRoute, setLayout, startPage)
 import           Web.View.Layout             (defaultLayout)
 
 -- Controller Imports
@@ -24,7 +25,7 @@ import           Web.Controller.Users        ()
 
 instance FrontController WebApplication where
     controllers =
-        [ startPage DashboardAction
+        [ startPage WelcomeAction
         -- Generator Marker
         , parseRoute @UsersController
         , parseRoute @CommentsController

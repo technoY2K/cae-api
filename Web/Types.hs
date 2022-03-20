@@ -6,6 +6,7 @@ import           IHP.Prelude
 
 data WebApplication = WebApplication deriving (Eq, Show)
 data StaticController = WelcomeAction deriving (Eq, Show, Data)
+data DashboardController = DashboardAction deriving (Eq, Show, Data)
 
 data PostsController
     = PostsAction
@@ -27,21 +28,6 @@ data CommentsController
     | DeleteCommentAction { commentId :: !(Id Comment) }
     deriving (Eq, Show, Data)
 
-data SessionsController
-    = NewSessionAction
-    | CreateSessionAction
-    | DeleteSessionAction
-    deriving (Eq, Show, Data)
-
-data DashboardController
-    = DashboardAction
-    deriving (Eq, Show, Data)
-
-instance HasNewSessionUrl User where
-    newSessionUrl _ = "/NewSession"
-
-type instance CurrentUserRecord = User
-
 data UsersController
     = UsersAction
     | NewUserAction
@@ -51,3 +37,14 @@ data UsersController
     | UpdateUserAction { userId :: !(Id User) }
     | DeleteUserAction { userId :: !(Id User) }
     deriving (Eq, Show, Data)
+
+data SessionsController
+    = NewSessionAction
+    | CreateSessionAction
+    | DeleteSessionAction
+    deriving (Eq, Show, Data)
+
+instance HasNewSessionUrl User where
+    newSessionUrl _ = "/NewSession"
+
+type instance CurrentUserRecord = User
