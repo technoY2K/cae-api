@@ -16,18 +16,30 @@ SET SESSION AUTHORIZATION DEFAULT;
 
 ALTER TABLE public.posts DISABLE TRIGGER ALL;
 
-INSERT INTO public.posts (id, title, body) VALUES ('3b6786ca-e56a-47d4-b8a5-6df02a72e1cd', 'HelloWorld', 'First IHP Post');
-INSERT INTO public.posts (id, title, body) VALUES ('900fb36e-9791-4d5a-9597-e5a63a66ea91', 'Validate', 'Lorem Ipsum');
 
 
 ALTER TABLE public.posts ENABLE TRIGGER ALL;
 
 
+ALTER TABLE public.comments DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.comments ENABLE TRIGGER ALL;
+
+
 ALTER TABLE public.schema_migrations DISABLE TRIGGER ALL;
 
-INSERT INTO public.schema_migrations (revision) VALUES (1646446127);
+INSERT INTO public.schema_migrations (revision) VALUES (1648351631);
 
 
 ALTER TABLE public.schema_migrations ENABLE TRIGGER ALL;
+
+
+ALTER TABLE public.users DISABLE TRIGGER ALL;
+
+
+
+ALTER TABLE public.users ENABLE TRIGGER ALL;
 
 
