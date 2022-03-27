@@ -15,7 +15,8 @@ import           IHP.ViewPrelude               (Html, Maybe (Just, Nothing),
 import qualified Text.Blaze.Html5              as H
 import qualified Text.Blaze.Html5.Attributes   as A
 import           Web.Routes                    ()
-import           Web.Types                     (SessionsController (DeleteSessionAction, NewSessionAction))
+import           Web.Types                     (DashboardController (DashboardAction),
+                                                SessionsController (DeleteSessionAction, NewSessionAction))
 
 defaultLayout :: Html -> Html
 defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
@@ -39,13 +40,16 @@ defaultLayout inner = H.docTypeHtml ! A.lang "en" $ [hsx|
     where
         renderNav = [hsx|
             <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="/">=</a>
+                <a class="navbar-brand" href="/">Home</a>
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarNav">
                     <ul class="navbar-nav">
-                    <li class="nav-item">
+                    <li class="nav-item px-2">
+                        <a class="js-delete js-delete-no-confirm" href={DashboardAction}>Dashboard</a>
+                    </li>
+                    <li class="nav-item px-2">
                         {authUser}
                     </li>
                     </ul>
