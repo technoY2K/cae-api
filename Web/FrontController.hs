@@ -2,7 +2,8 @@ module Web.FrontController where
 
 import           IHP.RouterPrelude           (FrontController (..), parseRoute,
                                               startPage)
-import           Web.Controller.Prelude      (CommentsController,
+import           Web.Controller.Prelude      (AssetsController,
+                                              CommentsController,
                                               DashboardController,
                                               FrontController (..),
                                               InitControllerContext (..),
@@ -16,6 +17,7 @@ import           Web.View.Layout             (defaultLayout)
 
 -- Controller Imports
 import           IHP.LoginSupport.Middleware (initAuthentication)
+import           Web.Controller.Assets       ()
 import           Web.Controller.Comments     ()
 import           Web.Controller.Dashboard    ()
 import           Web.Controller.Posts        ()
@@ -32,6 +34,7 @@ instance FrontController WebApplication where
         , parseRoute @PostsController
         , parseRoute @SessionsController
         , parseRoute @DashboardController
+        , parseRoute @AssetsController
         ]
 
 instance InitControllerContext WebApplication where
