@@ -18,7 +18,7 @@ instance View WelcomeView where
         |]
         where
             renderForm = [hsx|
-                <form id="main-form" method="GET" action={ShowPolicyAction }>
+                <form id="main-form" method="GET" action={ShowPolicyAction}>
                     <input type="text" name="policyid" class="form-control"/>
                     <input type="submit" class="btn btn-primary"/>
                 </form>
