@@ -1,6 +1,5 @@
 module Web.View.Static.Welcome where
 import           Web.View.Prelude
-import           Web.View.Prelude (FormField (placeholder))
 
 data WelcomeView = WelcomeView
 

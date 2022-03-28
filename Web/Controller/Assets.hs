@@ -1,5 +1,5 @@
 module Web.Controller.Assets where
-import           BasicPrelude
+
 import           Blockfrost.Client
 import           Web.Controller.Prelude
 import           Web.View.Assets.Show
@@ -12,7 +12,7 @@ instance Controller AssetsController where
                     ats <- getAssetsByPolicy (PolicyId id)
                     case ats of
                         (x:y:zs) -> do
-                            details <- getAssetDetails $ AssetId (_assetInfoAsset y)
+                            details <- getAssetDetails $ AssetId (_assetInfoAsset x)
                             case _assetDetailsOnchainMetadata details of
                                 Nothing -> return ("No asset meta data" :: Text)
                                 Just d  -> return (_assetOnChainMetadataName d)
