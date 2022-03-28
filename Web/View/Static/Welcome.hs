@@ -1,5 +1,6 @@
 module Web.View.Static.Welcome where
 import           Web.View.Prelude
+import           Web.View.Prelude (FormField (placeholder))
 
 data WelcomeView = WelcomeView
 
@@ -12,15 +13,16 @@ instance View WelcomeView where
                     </h2>
                 </div>
             </div>
-            <div>
+            <div class="mt-5">
+                <p>Search by Policy ID</p>
                 {renderForm}
             </div>
         |]
         where
             renderForm = [hsx|
                 <form id="main-form" method="GET" action={ShowPolicyAction}>
-                    <input type="text" name="policyid" class="form-control"/>
-                    <input type="submit" class="btn btn-primary"/>
+                    <input type="text" name="policyid" class="form-control" />
+                    <input type="submit" class="btn btn-primary mt-3" />
                 </form>
                 |]
 
