@@ -2,28 +2,25 @@ module Web.Controller.Assets where
 
 import           Blockfrost.Client
 import           Web.Controller.Prelude
-import           Web.View.Assets.Show
 
 instance Controller AssetsController where
     action ShowPolicyAction = do
         project <- projectFromFile ".blockfrost"
         result <- runBlockfrost project $ do
                     let id = param @Text "policyid"
-                    ats <- getAssetsByPolicy (PolicyId id)
-                    case ats of
-                        (x:y:zs) -> do
-                            details <- getAssetDetails $ AssetId (_assetInfoAsset x)
-                            case _assetDetailsOnchainMetadata details of
-                                Nothing -> return ("No asset meta data" :: Text)
-                                Just d  -> return (_assetOnChainMetadataName d)
+                    assets <- getAssetsByPolicy' (PolicyId id) (Paged {countPerPage = 9, pageNumber = 1}) Descending
+                    assetsDetails <- mapM ((getAssetDetails . AssetId) . _assetInfoAsset) assets
 
-                        _ -> return "Not enough assets"
+                    return ( map getAssetName assetsDetails)
 
         let pn = case result of
-                Left e  -> parseBFError e
+                Left e  -> []
                 Right t -> t
 
         renderJson pn
+
+        where
+            getAssetName a = maybe "No asset info" _assetOnChainMetadataName (_assetDetailsOnchainMetadata y)
 
 
 parseBFError :: BlockfrostError -> Text
