@@ -11,7 +11,7 @@ instance Controller AssetsController where
                     assets <- getAssetsByPolicy' (PolicyId id) (Paged {countPerPage = 9, pageNumber = 1}) Descending
                     assetsDetails <- mapM ((getAssetDetails . AssetId) . _assetInfoAsset) assets
 
-                    return ( map getAssetName assetsDetails)
+                    return (map getAssetName assetsDetails)
 
         let pn = case result of
                 Left e  -> []
@@ -20,7 +20,7 @@ instance Controller AssetsController where
         renderJson pn
 
         where
-            getAssetName a = maybe "No asset info" _assetOnChainMetadataName (_assetDetailsOnchainMetadata y)
+            getAssetName = maybe "No asset info" _assetOnChainMetadataName . _assetDetailsOnchainMetadata
 
 
 parseBFError :: BlockfrostError -> Text
