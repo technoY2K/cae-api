@@ -23,7 +23,7 @@ instance Controller AssetsController where
                 Left e  -> parseBFError e
                 Right t -> t
 
-        render ShowView {policyName = pn}
+        renderJson pn
 
 
 parseBFError :: BlockfrostError -> Text
