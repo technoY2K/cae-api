@@ -8,6 +8,7 @@ data WebApplication = WebApplication deriving (Eq, Show)
 data StaticController = WelcomeAction deriving (Eq, Show, Data)
 data DashboardController = DashboardAction deriving (Eq, Show, Data)
 data AssetsController = ShowPolicyAction deriving (Eq, Show, Data)
+data WalletsController = ShowWalletAction deriving (Eq, Show, Data)
 
 data PostsController
     = PostsAction

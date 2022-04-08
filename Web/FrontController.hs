@@ -11,8 +11,9 @@ import           Web.Controller.Prelude      (AssetsController,
                                               SessionsController,
                                               StaticController (WelcomeAction),
                                               User, UsersController,
-                                              WebApplication, initAutoRefresh,
-                                              parseRoute, setLayout, startPage)
+                                              WalletsController, WebApplication,
+                                              initAutoRefresh, parseRoute,
+                                              setLayout, startPage)
 import           Web.View.Layout             (defaultLayout)
 
 -- Controller Imports
@@ -24,6 +25,7 @@ import           Web.Controller.Posts        ()
 import           Web.Controller.Sessions     ()
 import           Web.Controller.Static       ()
 import           Web.Controller.Users        ()
+import           Web.Controller.Wallets      ()
 
 instance FrontController WebApplication where
     controllers =
@@ -35,6 +37,7 @@ instance FrontController WebApplication where
         , parseRoute @SessionsController
         , parseRoute @DashboardController
         , parseRoute @AssetsController
+        , parseRoute @WalletsController
         ]
 
 instance InitControllerContext WebApplication where
