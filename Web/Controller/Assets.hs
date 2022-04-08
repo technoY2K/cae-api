@@ -1,11 +1,12 @@
 module Web.Controller.Assets where
 
 import           Blockfrost.Client
+import           Web.Common.BlockfrostAdapter as BA
 import           Web.Controller.Prelude
 
 instance Controller AssetsController where
     action ShowPolicyAction = do
-        project <- projectFromFile ".blockfrost"
+        project <- BA.getProject
         result <- runBlockfrost project $ do
                     let id = param @Text "policyid"
                     assets <- getAssetsByPolicy' (PolicyId id) (Paged {countPerPage = 9, pageNumber = 1}) Descending
