@@ -1,12 +1,10 @@
 module Web.Common.CardanoAPI where
 
 import           Blockfrost.Client
-import           IHP.Prelude
-
-import qualified Data.ByteString.Lazy as BL
-import qualified Data.Text            as T
-import qualified Data.Text.Encoding   as T
+import qualified Data.Text          as T
+import qualified Data.Text.Encoding as T
 import           Debug.Trace
+import           IHP.Prelude
 
 getProject :: IO Project
 getProject = projectFromFile ".blockfrost"
