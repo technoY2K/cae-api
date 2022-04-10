@@ -12,7 +12,7 @@ instance Controller WalletsController where
         let s = param @Text "stakeid"
         result <- C.getAccountByStake s
 
-        renderPlain (convert s)
+        renderPlain (convert result)
 
 convert :: Text -> LByteString
 convert = BL.fromChunks . return . T.encodeUtf8

@@ -9,6 +9,8 @@ import           IHP.Prelude
 getProject :: IO Project
 getProject = projectFromFile ".blockfrost"
 
+-- Asset specific API
+
 getAssetDetailsByPolicy :: Text -> IO [Text]
 getAssetDetailsByPolicy p = do
     project <- getProject
@@ -25,6 +27,8 @@ getAssetDetailsByPolicy p = do
     where
     getAssetName = maybe "No asset info" _assetOnChainMetadataName . _assetDetailsOnchainMetadata
 
+-- Wallet specific API
+
 getAccountByStake :: Text -> IO Text
 getAccountByStake stake = do
     project <- getProject
@@ -38,6 +42,8 @@ getAccountByStake stake = do
                 trace (T.unpack $ show isActive) "test"
 
     return r
+
+-- Util and Helpers
 
 parseBFError :: BlockfrostError -> Text
 parseBFError b = case b of
