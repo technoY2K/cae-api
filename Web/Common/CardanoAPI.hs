@@ -37,7 +37,7 @@ getAllAddressesByStake stake = do
 
     let r = case result of
             Left e  -> trace ("Error while fetching addresses " ++ T.unpack (parseBFError e)) []
-            Right a -> map (unAddress . _addressAssociatedAddress) a
+            Right associatedAddresses  -> map (unAddress . _addressAssociatedAddress) associatedAddresses
 
     return r
 
