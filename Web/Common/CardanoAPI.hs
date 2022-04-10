@@ -29,17 +29,15 @@ getAssetDetailsByPolicy p = do
 
 -- Wallet specific API
 
-getAccountByStake :: Text -> IO Text
-getAccountByStake stake = do
+getAllAddressesByStake :: Text -> IO [Text]
+getAllAddressesByStake stake = do
     project <- getProject
     result <- runBlockfrost project $ do
-            getAccount (Address stake)
+            getAccountAssociatedAddresses (Address stake)
 
     let r = case result of
-            Left e -> parseBFError e
-            Right a -> do
-                let isActive = _accountInfoActive a
-                trace (T.unpack $ show isActive) "test"
+            Left e  -> trace ("Error while fetching addresses " ++ T.unpack (parseBFError e)) []
+            Right a -> map (unAddress . _addressAssociatedAddress) a
 
     return r
 

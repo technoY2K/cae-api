@@ -10,10 +10,7 @@ import           Web.Controller.Prelude
 instance Controller WalletsController where
     action ShowWalletAction = do
         let s = param @Text "stakeid"
-        result <- C.getAccountByStake s
+        result <- C.getAllAddressesByStake s
 
-        renderPlain (convert result)
-
-convert :: Text -> LByteString
-convert = BL.fromChunks . return . T.encodeUtf8
+        renderJson result
 
