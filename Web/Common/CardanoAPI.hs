@@ -3,6 +3,11 @@ module Web.Common.CardanoAPI where
 import           Blockfrost.Client
 import           IHP.Prelude
 
+import qualified Data.ByteString.Lazy as BL
+import qualified Data.Text            as T
+import qualified Data.Text.Encoding   as T
+import           Debug.Trace
+
 getProject :: IO Project
 getProject = projectFromFile ".blockfrost"
 
@@ -21,6 +26,20 @@ getAssetDetailsByPolicy p = do
 
     where
     getAssetName = maybe "No asset info" _assetOnChainMetadataName . _assetDetailsOnchainMetadata
+
+getAccountByStake :: Text -> IO Text
+getAccountByStake stake = do
+    project <- getProject
+    result <- runBlockfrost project $ do
+            getAccount (Address stake)
+
+    let r = case result of
+            Left e -> parseBFError e
+            Right a -> do
+                let isActive = _accountInfoActive a
+                trace (T.unpack $ show isActive) "test"
+
+    return r
 
 parseBFError :: BlockfrostError -> Text
 parseBFError b = case b of
