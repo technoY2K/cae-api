@@ -27,6 +27,9 @@ getAssetDetailsByPolicy p = do
     where
     getAssetName = maybe "No asset info" _assetOnChainMetadataName . _assetDetailsOnchainMetadata
 
+getAssetsAssociatedByAddress :: Text -> IO [Text]
+getAssetsAssociatedByAddress = undefined
+
 -- Wallet specific API
 
 getAllAddressesByStake :: Text -> IO [Text]
@@ -40,6 +43,7 @@ getAllAddressesByStake stake = do
             Right associatedAddresses  -> map (unAddress . _addressAssociatedAddress) associatedAddresses
 
     return r
+
 
 -- Util and Helpers
 
