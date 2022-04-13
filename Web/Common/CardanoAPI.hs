@@ -18,15 +18,13 @@ getAssetDetailsByPolicy pId = do
     result <- runBlockfrost project $ do
                     assets <- getAssetsByPolicy' (PolicyId pId) (Paged {countPerPage = 9, pageNumber = 1}) Descending
                     assetsDetails <- mapM ((getAssetDetails . AssetId) . _assetInfoAsset) assets
+                    let getAssetName = maybe "No asset info" _assetOnChainMetadataName . _assetDetailsOnchainMetadata
 
                     return (map getAssetName assetsDetails)
 
     return case result of
                 Left e  -> []
                 Right t -> t
-
-    where
-    getAssetName = maybe "No asset info" _assetOnChainMetadataName . _assetDetailsOnchainMetadata
 
 getAssetsAssociatedByAddress :: Text -> IO [Text]
 getAssetsAssociatedByAddress stake = do
@@ -37,18 +35,14 @@ getAssetsAssociatedByAddress stake = do
                         [] -> ["None"]
                         _  -> map currencyName amounts
 
-
-
-
+                            where
+                                currencyName amount = case amount of
+                                    AdaAmount dis  -> discreteCurrency dis
+                                    AssetAmount sd -> someDiscreteCurrency sd
 
     return case result of
                 Left e  -> []
                 Right t -> t
-
-    where
-         currencyName amount = case amount of
-                AdaAmount dis  -> discreteCurrency dis
-                AssetAmount sd -> someDiscreteCurrency sd
 
 -- Wallet specific API
 
