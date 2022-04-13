@@ -12,10 +12,10 @@ getProject = projectFromFile ".blockfrost"
 -- Asset specific API
 
 getAssetDetailsByPolicy :: Text -> IO [Text]
-getAssetDetailsByPolicy p = do
+getAssetDetailsByPolicy pId = do
     project <- getProject
     result <- runBlockfrost project $ do
-                    assets <- getAssetsByPolicy' (PolicyId p) (Paged {countPerPage = 9, pageNumber = 1}) Descending
+                    assets <- getAssetsByPolicy' (PolicyId pId) (Paged {countPerPage = 9, pageNumber = 1}) Descending
                     assetsDetails <- mapM ((getAssetDetails . AssetId) . _assetInfoAsset) assets
 
                     return (map getAssetName assetsDetails)
@@ -28,7 +28,13 @@ getAssetDetailsByPolicy p = do
     getAssetName = maybe "No asset info" _assetOnChainMetadataName . _assetDetailsOnchainMetadata
 
 getAssetsAssociatedByAddress :: Text -> IO [Text]
-getAssetsAssociatedByAddress = undefined
+getAssetsAssociatedByAddress address = do
+    project <- getProject
+    result <- runBlockfrost project $ do
+                getAccountAssociatedAssets (Address "stake1uxv7yp037k3z3td90d0h4qrgkayjwc0fz093zzq9fejd0nqq8c83w")
+                return ["Inside"]
+
+    return [""]
 
 -- Wallet specific API
 
@@ -38,12 +44,9 @@ getAllAddressesByStake stake = do
     result <- runBlockfrost project $ do
             getAccountAssociatedAddresses (Address stake)
 
-    let r = case result of
+    return case result of
             Left e  -> trace ("Error while fetching addresses " ++ T.unpack (parseBFError e)) []
             Right associatedAddresses  -> map (unAddress . _addressAssociatedAddress) associatedAddresses
-
-    return r
-
 
 -- Util and Helpers
 

@@ -8,9 +8,15 @@ import qualified Web.Common.CardanoAPI  as C
 import           Web.Controller.Prelude
 
 instance Controller WalletsController where
-    action ShowWalletAction = do
+    action ShowWalletAddressesAction = do
         let s = param @Text "stakeid"
         result <- C.getAllAddressesByStake s
+
+        renderJson result
+
+    action ShowWalletAssets = do
+        let s = param @Text "stakeid"
+        result <- C.getAssetsAssociatedByAddress s
 
         renderJson result
 
