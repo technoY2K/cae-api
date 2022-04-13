@@ -5,6 +5,7 @@ import qualified Data.Text          as T
 import qualified Data.Text.Encoding as T
 import           Debug.Trace
 import           IHP.Prelude
+import           Money              (discreteCurrency, someDiscreteCurrency)
 
 getProject :: IO Project
 getProject = projectFromFile ".blockfrost"
@@ -31,10 +32,23 @@ getAssetsAssociatedByAddress :: Text -> IO [Text]
 getAssetsAssociatedByAddress address = do
     project <- getProject
     result <- runBlockfrost project $ do
-                getAccountAssociatedAssets (Address "stake1uxv7yp037k3z3td90d0h4qrgkayjwc0fz093zzq9fejd0nqq8c83w")
-                return ["Inside"]
+                amounts <- getAccountAssociatedAssets (Address "stake1uxv7yp037k3z3td90d0h4qrgkayjwc0fz093zzq9fejd0nqq8c83w")
+                return case amounts of
+                        [] -> ["None"]
+                        _  -> map getCurrency amounts
 
-    return [""]
+
+
+
+
+    return case result of
+                Left e  -> []
+                Right t -> t
+
+    where
+         getCurrency amount = case amount of
+                AdaAmount dis  -> discreteCurrency dis
+                AssetAmount sd -> someDiscreteCurrency sd
 
 -- Wallet specific API
 
