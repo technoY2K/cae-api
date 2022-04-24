@@ -1,9 +1,5 @@
 module Web.Controller.Posts where
 
-import           BasicPrelude
-import           Blockfrost.Client
-import qualified Data.ByteString.Lazy   as BL
-import qualified Data.Text              as T
 import qualified Text.MMark             as MMark
 import           Web.Controller.Prelude
 import           Web.View.Posts.Edit
@@ -79,15 +75,3 @@ isMarkDown text =
     case MMark.parse "" text of
         Left _  -> Failure "Please provide valid Markdown"
         Right _ -> Success
-
-convert :: Text -> BL.ByteString
-convert = BL.fromChunks . return . encodeUtf8
-
-parseBFError :: BlockfrostError -> Text
-parseBFError b = case b of
-    BlockfrostError t        -> t
-    BlockfrostBadRequest t   -> t
-    BlockfrostTokenMissing t -> t
-    BlockfrostFatal t        -> t
-    _                        -> "Unknow error"
-
