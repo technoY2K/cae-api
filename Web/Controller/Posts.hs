@@ -18,7 +18,7 @@ data Dummy = Dummy
     }
 
 mkDummy :: Dummy
-mkDummy = Dummy { pig = "IGNORANCE", rooster = "DESIRE", snake = "HATE"}
+mkDummy = Dummy { pig = "IGNORANCE", rooster = "DESIRE", snake = "HATRED"}
 
 instance ToJSON Dummy where
     toJSON d = object ["pig" .= pig d, "rooster" .= rooster d, "snake" .= snake d]
