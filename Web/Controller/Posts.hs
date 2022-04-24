@@ -8,27 +8,23 @@ import qualified Text.MMark             as MMark
 import           Web.Controller.Prelude
 import           Web.View.Posts.Edit
 import           Web.View.Posts.Index
-import           Web.View.Posts.New
+import           Web.View.Posts.New     (NewView (NewView, post))
 import           Web.View.Posts.Show
 
+data Dummy = Dummy
+    { pig     :: Text
+    , rooster :: Text
+    , snake   :: Text
+    }
+
+mkDummy :: Dummy
+mkDummy = Dummy { pig = "IGNORANCE", rooster = "DESIRE", snake = "HATE"}
+
+instance ToJSON Dummy where
+    toJSON d = object ["pig" .= pig d, "rooster" .= rooster d, "snake" .= snake d]
+
 instance Controller PostsController where
-    action PostsAction = do
-        project <- projectFromFile ".blockfrost"
-        result <- runBlockfrost project $ do
-                    let policyId = param @Text "policyId"
-                    ats <- getAssetsByPolicy (PolicyId policyId)
-                    case ats of
-                        (x:y:zs) -> do
-                            details <- getAssetDetails $ AssetId (_assetInfoAsset y)
-                            case _assetDetailsOnchainMetadata details of
-                                Nothing -> return ("No asset meta data" :: T.Text)
-                                Just d  -> return (_assetOnChainMetadataName d)
-
-                        _ -> return "Not enough assets"
-
-        case result of
-            Left e  -> renderPlain $ convert (parseBFError e)
-            Right t -> renderPlain $ convert t
+    action PostsAction = renderJson mkDummy
 
     action NewPostAction = do
         let post = newRecord
