@@ -7,20 +7,22 @@ import           Web.View.Posts.Index
 import           Web.View.Posts.New     (NewView (NewView, post))
 import           Web.View.Posts.Show
 
-data Dummy = Dummy
-    { pig     :: Text
-    , rooster :: Text
-    , snake   :: Text
-    }
+data Dummy
+    = Samsara { pig   :: Text
+            , rooster :: Text
+            , snake   :: Text
+            }
+    | Moksha deriving (Show)
 
-mkDummy :: Dummy
-mkDummy = Dummy { pig = "IGNORANCE", rooster = "DESIRE", snake = "HATRED"}
+mkSam :: Dummy
+mkSam = Samsara { pig = "IGNORANCE", rooster = "DESIRE", snake = "HATRED"}
 
 instance ToJSON Dummy where
-    toJSON d = object ["pig" .= pig d, "rooster" .= rooster d, "snake" .= snake d]
+    toJSON Samsara { pig = p, rooster = r, snake = s } = object ["pig" .= p, "rooster" .= r, "snake" .= s]
+    toJSON Moksha       = object ["you" .= ("FREE" :: Text)]
 
 instance Controller PostsController where
-    action PostsAction = renderJson mkDummy
+    action PostsAction = renderJson mkSam
 
     action NewPostAction = do
         let post = newRecord
